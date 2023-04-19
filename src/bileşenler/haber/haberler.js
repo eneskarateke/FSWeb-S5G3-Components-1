@@ -90,6 +90,49 @@ const data = [
   }
 ];
 
+
+const yeniHaberler = [{
+  baslik: 'Uydurma haber',
+  tarih: '9 Kasım 2022',
+  ilkParagraf: `safsafdsghfsdhfdhsdmckmsdpkfmnsadpokfneaıohfnpwaenfpaıwndfpwıanfp`,
+
+  ikinciParagraf: `Pidgey Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pidgeotto Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Pidgeot Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rattata Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Raticate Lorem ipsum dolor sit amet, consectetur adipiscing elit. Spearow Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Fearow Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ekans Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Arbok Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pikachu Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Raichu Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sandshrew Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Sandslash Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nidoran Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit. Nidorina Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nidoqueen Lorem ipsum dolor sit amet,
+      consectetur adipiscing elit. Nidoran Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nidorino Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Nidoking Lorem ipsum`,
+
+  ucuncuParagraf: `Gotta catch 'em all Horsea gym Ninjask Absol Sinnoh Poliwag. Gotta catch 'em all Youngster wants to fight Soda Pop Floatzel
+      Leech Life Seismitoad Ariados. Earthquake Pokemon Glitch City Tail Whip Skitty Ekans Dialga. Ut aliquip ex ea commodo consequat James
+      Castform Lotad the power that's inside Burnt Berry Makuhita. Ghost Ariados Corphish Dusclops Golbat Gligar Zweilous.`
+},
+{
+  baslik: 'merhaba',
+  tarih: '1 Kasım 2022',
+  ilkParagraf: `Hodor hodor HODOR! Hodor hodor - hodor, hodor. Hodor hodor... Hodor hodor hodor; hodor hodor. Hodor hodor hodor, hodor, hodor
+        hodor. Hodor, hodor. Hodor. Hodor, hodor - hodor... Hodor hodor hodor; hodor HODOR hodor, hodor hodor?! Hodor hodor, hodor.
+        Hodor hodor hodor hodor hodor! Hodor hodor - HODOR hodor, hodor hodor hodor hodor hodor; hodor hodor? `,
+
+  ikinciParagraf: `Hodor, hodor. Hodor. Hodor, hodor, hodor. Hodor hodor, hodor. Hodor hodor, hodor, hodor hodor. Hodor! Hodor hodor, hodor;
+        hodor hodor hodor? Hodor, hodor. Hodor. Hodor, hodor - HODOR hodor, hodor hodor hodor! Hodor, hodor. Hodor. Hodor, HODOR
+        hodor, hodor hodor, hodor, hodor hodor. Hodor hodor - hodor - hodor... Hodor hodor hodor hodor hodor hodor hodor?! Hodor
+        hodor - hodor hodor hodor. Hodor. Hodor hodor... Hodor hodor hodor hodor hodor? `,
+
+  ucuncuParagraf: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
+        Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
+        Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+}
+];
+
+yeniHaberler.forEach(i => {
+data.push(i)
+});
+
 /*
   Adım 1: Haber oluşturmak için 'haberYapici' adında bir bileşen(component) oluşturun.
   Bileşeniniz, argümanı haberleri içeren dizi olarak alan bir fonksiyon olacak,
@@ -102,8 +145,65 @@ const data = [
     {üç ayrı paragraf elementi}
 
     <span class="expandButton">+</span>
-  </div>
+  </div>*/
+ 
+/**
+ * 
+ *  @param {*} haber
+ *  
+ */
 
+const haberYapici = (haber) => {
+  const container = document.createElement("div");
+  container.setAttribute("class","article");
+
+  const header = document.createElement("h2");
+  header.setAttribute("title", "haber başlığı")
+  header.textContent = haber.baslik;
+  container.append(header);
+
+  const tarih= document.createElement("p");
+  tarih.classList.add("tarih");
+  tarih.title ="haber tarihi";
+  tarih.textContent = haber.tarih;
+  container.append(tarih);
+
+  const Paragraf1= document.createElement("p");
+  Paragraf1.textContent= haber.ilkParagraf;
+  container.append(Paragraf1);
+
+
+  const Paragraf2= document.createElement("p");
+  Paragraf2.textContent = haber.ikinciParagraf;
+  container.append(Paragraf2);
+
+
+
+  const Paragraf3= document.createElement("p");
+  Paragraf3.textContent = haber.ucuncuParagraf;
+  container.append(Paragraf3);
+
+  const button = document.createElement("span");
+  button.setAttribute("class", "expandButton");
+  button.textContent = "+";
+  button.addEventListener("click", (event) => {
+    const article = event.target.closest(".article"); 
+    article.classList.toggle("article-open");
+  });
+  container.append(button);
+  return container;
+};
+
+const haberContainer = document.getElementsByClassName("articles");
+
+Array.from(haberContainer).forEach((container) => {
+  data.forEach((haber) => {
+    container.append(haberYapici(haber));
+  });
+});
+
+
+/*
   Adım 2: Hala `haberYapici` içindeyiz, span.expandButton 'a bir click event dinleyici ekleyin.
   Bu dinleyici div.article öğesine 'article-open' class'ını ekleyip/çıkaracak (toogle).
 
@@ -115,3 +215,4 @@ const data = [
   Adım 5: Veri dizisine yeni haber nesnesi eklemeyi deneyin. Diğer verilerle aynı yapıda olmasına dikkat edin.
   Eklediğiniz yeni haberi görmek için sayfayı yenileyin.
 */
+
